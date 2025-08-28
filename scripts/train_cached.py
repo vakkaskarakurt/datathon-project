@@ -7,6 +7,8 @@ from pathlib import Path
 import os
 import pickle
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore")
 
 # Ensure we can import from src
 current_dir = Path(__file__).parent.absolute()
