@@ -1,0 +1,42 @@
+ecommerce_session_prediction/
+├── config/
+│   ├── __init__.py
+│   ├── config.yaml
+│   └── model_configs.py
+├── src/
+│   ├── __init__.py
+│   ├── data/
+│   │   ├── __init__.py
+│   │   ├── loader.py
+│   │   └── preprocessor.py
+│   ├── features/
+│   │   ├── __init__.py
+│   │   ├── base_features.py
+│   │   ├── behavioral_features.py
+│   │   ├── temporal_features.py
+│   │   └── research_features.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── base_model.py
+│   │   └── ensemble.py
+│   ├── evaluation/
+│   │   ├── __init__.py
+│   │   └── metrics.py
+│   └── utils/
+│       ├── __init__.py
+│       └── helpers.py
+├── scripts/
+│   ├── train.py
+│   ├── predict.py
+│   └── feature_analysis.py
+├── notebooks/
+│   └── exploration.ipynb
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── features/
+├── models/
+│   └── saved_models/
+├── requirements.txt
+├── setup.py
+└── README.md
