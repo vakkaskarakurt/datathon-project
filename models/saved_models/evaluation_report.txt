@@ -1,0 +1,22 @@
+
+=== MODEL EVALUATION REPORT ===
+Model: Ensemble Model
+
+Performance Metrics:
+- RMSE: 24.2879
+- MSE:  589.9027
+- MAE:  12.6550
+- R�:   0.7530
+- MAPE: 53.8928%
+
+Residual Analysis:
+- Mean Residual: 0.1000
+- Std Residual:  24.2877
+- Max Error:     1334.7453
+
+Model Quality:
+- Bias: Low
+- Variance: High
+- Overall: Good
+
+Recommendations:

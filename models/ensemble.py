@@ -15,31 +15,64 @@ logger = logging.getLogger(__name__)
 class EnsembleModel(BaseModel):
     """Ensemble of multiple regression models with optimal weighting"""
     
-    def __init__(self, config: Dict[str, Any]):
-        super().__init__(config)
+    def __init__(self, config):
+        # Convert dataclass to dict if needed
+        if hasattr(config, '__dict__'):
+            config_dict = config.__dict__
+        else:
+            config_dict = config
+            
+        super().__init__(config_dict)
         self.models = {}
-        self.weights = config.get('ensemble_weights', {
-            'lightgbm': 0.4,
-            'xgboost': 0.3, 
-            'catboost': 0.2,
-            'random_forest': 0.1
-        })
+        
+        # Handle ensemble_weights
+        if hasattr(config, 'ensemble_weights'):
+            self.weights = config.ensemble_weights
+        else:
+            self.weights = config_dict.get('ensemble_weights', {
+                'lightgbm': 0.4,
+                'xgboost': 0.3, 
+                'catboost': 0.2,
+                'random_forest': 0.1
+            })
+        
         self.oof_predictions = {}
         
     def _initialize_models(self):
         """Initialize all base models"""
         
+        # Get model configs
+        if hasattr(self.config, 'lightgbm'):
+            lgb_config = self.config.lightgbm.__dict__ if hasattr(self.config.lightgbm, '__dict__') else self.config.lightgbm
+        else:
+            lgb_config = self.config.get('lightgbm', {})
+            
+        if hasattr(self.config, 'xgboost'):
+            xgb_config = self.config.xgboost.__dict__ if hasattr(self.config.xgboost, '__dict__') else self.config.xgboost
+        else:
+            xgb_config = self.config.get('xgboost', {})
+            
+        if hasattr(self.config, 'catboost'):
+            cb_config = self.config.catboost.__dict__ if hasattr(self.config.catboost, '__dict__') else self.config.catboost
+        else:
+            cb_config = self.config.get('catboost', {})
+            
+        if hasattr(self.config, 'random_forest'):
+            rf_config = self.config.random_forest.__dict__ if hasattr(self.config.random_forest, '__dict__') else self.config.random_forest
+        else:
+            rf_config = self.config.get('random_forest', {})
+        
         # LightGBM
-        self.models['lightgbm'] = lgb.LGBMRegressor(**self.config.get('lightgbm', {}))
+        self.models['lightgbm'] = lgb.LGBMRegressor(**lgb_config)
         
         # XGBoost
-        self.models['xgboost'] = xgb.XGBRegressor(**self.config.get('xgboost', {}))
+        self.models['xgboost'] = xgb.XGBRegressor(**xgb_config)
         
         # CatBoost
-        self.models['catboost'] = CatBoostRegressor(**self.config.get('catboost', {}))
+        self.models['catboost'] = CatBoostRegressor(**cb_config)
         
         # Random Forest
-        self.models['random_forest'] = RandomForestRegressor(**self.config.get('random_forest', {}))
+        self.models['random_forest'] = RandomForestRegressor(**rf_config)
         
         logger.info(f"Initialized {len(self.models)} base models")
     

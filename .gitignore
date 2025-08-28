@@ -4,3 +4,7 @@
 *.tmp
 /.git
 .git
+__pycache__/
+*.pyc
+*.csv
+*.pkl
