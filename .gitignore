@@ -1,0 +1,6 @@
+*.git
+.git/
+*.log
+*.tmp
+/.git
+.git
